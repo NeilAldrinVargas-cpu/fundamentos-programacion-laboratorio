@@ -1,0 +1,33 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int calcularSuma (int n);
+
+int main(){ 
+    int n;
+      cout <<"--Suma de numeros hasta N---"<< endl;
+      cout<<"Ingrese un numero entero positivo:";
+      cin>>n;
+      
+      if(n<1){
+          cout<<"Por favor,ingrese un numero mayor a 0."<<endl;}
+          else { int resultado=calcularSuma(n);
+          
+          cout<<fixed<<setprecision(3);
+          cout<<"La suma de todos los numeros desde el 1 hasta "<<n<<" es: "<<resultado<<endl;
+      }
+      
+    return 0;
+}
+
+int calcularSuma (int n){ 
+    int suma=0;
+    
+    for (int i=1; i<= n; i++){
+        suma +=i;
+
+    }
+    return suma;
+    
+    }
