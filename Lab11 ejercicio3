@@ -1,0 +1,40 @@
+#include <iostream>
+#include <cmath> // Necesaria para la función pow()
+
+using namespace std;
+
+// 1. Función para leer los datos
+void leerDatos(double &numero, int &decimales) {
+    cout << "Ingrese el numero real (R): ";
+    cin >> numero;
+    cout << "Ingrese la cantidad de decimales (n): ";
+    cin >> decimales;
+}
+
+// 2. Función para realizar el redondeo
+double redondear(double numero, int n) {
+    double factor = pow(10, n); // Calculamos 10 elevado a la n
+    // Multiplicamos, redondeamos y dividimos
+    return round(numero * factor) / factor;
+}
+
+// 3. Función para mostrar el resultado
+void mostrarResultado(double original, double resultado, int n) {
+    cout << "------------------------------------------" << endl;
+    cout << "Numero original: " << original << endl;
+    cout << "Redondeado a " << n << " decimales: " << resultado << endl;
+    cout << "------------------------------------------" << endl;
+}
+
+int main() {
+    // Variables locales
+    double R, resultado;
+    int n;
+
+    // Llamado a las funciones
+    leerDatos(R, n);
+    resultado = redondear(R, n);
+    mostrarResultado(R, resultado, n);
+
+    return 0;
+}
