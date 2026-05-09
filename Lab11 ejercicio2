@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+void leerFecha(int &d, int &m, int &a);
+void LITERAL(int d, int m, int a, string &mesTexto, int &anioCompleto);
+void mostrarFechaLiteral(int d, string mesTexto, int anioCompleto); 
+
+int main(){
+    int dia, mes, anio;
+    string mesLiteral;
+    int anioFinal;
+    
+    leerFecha(dia, mes, anio);
+    
+    LITERAL(dia, mes, anio, mesLiteral, anioFinal); 
+
+    mostrarFechaLiteral(dia, mesLiteral, anioFinal);
+    
+    return 0;
+}
+
+
+
+void leerFecha(int &d, int &m, int &a) {
+    cout << "Ingrese el dia (1-31): ";
+    cin >> d;
+    cout << "Ingrese el numero de mes (1-12): ";
+    cin >> m;
+    cout << "Ingrese el año (ej. 99 o 2024): ";
+    cin >> a;
+}
+
+void LITERAL(int d, int m, int a, string &mesTexto, int &anioCompleto) {
+    switch(m) {
+        case 1:  mesTexto = "Enero";      break;
+        case 2:  mesTexto = "Febrero";    break;
+        case 3:  mesTexto = "Marzo";      break;
+        case 4:  mesTexto = "Abril";      break;
+        case 5:  mesTexto = "Mayo";       break;
+        case 6:  mesTexto = "Junio";      break;
+        case 7:  mesTexto = "Julio";      break;
+        case 8:  mesTexto = "Agosto";     break;
+        case 9:  mesTexto = "Septiembre"; break;
+        case 10: mesTexto = "Octubre";    break;
+        case 11: mesTexto = "Noviembre";  break;
+        case 12: mesTexto = "Diciembre";  break;
+        default: mesTexto = "[Mes Invalido]"; break;
+    }
+
+    if(a < 100){ 
+        anioCompleto = 2000 + a;
+    } else { 
+        anioCompleto = a;
+    }
+}
+
+void mostrarFechaLiteral(int d, string mesTexto, int anioCompleto){
+    cout << "\n--- Fecha Procesada ---" << endl;
+   
+    cout << d << " de " << mesTexto << " de " << anioCompleto << endl;
+}
