@@ -1,0 +1,69 @@
+#include <iostream>
+
+using namespace std;
+
+// --- Prototipos de Funciones ---
+void leerDatos(float &sueldo, float &bono, float &antiguedad);
+float calcularSalario(float s, float b, float a);
+void mostrarResultado(float total);
+
+int main() {
+    float sueldoBasico, bonoAdicional, bonificacionAntiguedad, salarioFinal;
+    int opcion;
+
+    do {
+        // Menú principal
+        cout << "\n--- CALCULADORA DE SALARIO ---" << endl;
+        cout << "1. Calcular salario de un trabajador" << endl;
+        cout << "2. Salir" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                // Etapa de Entrada
+                leerDatos(sueldoBasico, bonoAdicional, bonificacionAntiguedad);
+                
+                // Etapa de Proceso
+                salarioFinal = calcularSalario(sueldoBasico, bonoAdicional, bonificacionAntiguedad);
+                
+                // Etapa de Salida
+                mostrarResultado(salarioFinal);
+                break;
+            
+            case 2:
+                cout << "Saliendo del programa..." << endl;
+                break;
+            
+            default:
+                cout << "Opcion no valida. Intente de nuevo." << endl;
+        }
+
+    } while (opcion != 2);
+
+    return 0;
+}
+
+// --- Definición de Funciones ---
+
+// Función para leer los datos (usa paso por referencia para devolver 3 valores)
+void leerDatos(float &sueldo, float &bono, float &antiguedad) {
+    cout << "\nIngrese el sueldo basico: ";
+    cin >> sueldo;
+    cout << "Ingrese el bono adicional: ";
+    cin >> bono;
+    cout << "Ingrese la bonificacion por antiguedad: ";
+    cin >> antiguedad;
+}
+
+// Función para calcular el salario final
+float calcularSalario(float s, float b, float a) {
+    return s + b + a;
+}
+
+// Función para mostrar el resultado en pantalla
+void mostrarResultado(float total) {
+    cout << "\n================================" << endl;
+    cout << "El salario final es: $" << total << endl;
+    cout << "================================" << endl;
+}
