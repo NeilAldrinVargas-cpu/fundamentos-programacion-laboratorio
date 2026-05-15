@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+ 
+int calcularSubtotal(int cantidad);
+float aplicarDescuento(float subtotal);
+void mostrarResultado(float total);
+
+
+int main() {
+    float subtotal, total;
+    int cantidad;
+
+    cout << "Cantidad de productos: ";
+    cin >> cantidad;
+
+    subtotal = calcularSubtotal(cantidad);
+    total = aplicarDescuento(subtotal);
+     mostrarResultado(total);
+    
+
+    return 0;
+}
+
+
+int calcularSubtotal(int cantidad) {
+    // Asumimos un precio base de 25 por unidad
+    return cantidad * 25;
+}
+
+float aplicarDescuento(float subtotal) {
+    // Si la compra supera los 100, aplicamos 10% de descuento
+    if (subtotal > 100) {
+        subtotal = subtotal - (subtotal * 0.10);
+    }
+    return subtotal;
+}
+
+void mostrarResultado(float total) {
+    cout << "-----------------------------" << endl;
+    cout << "El total final a pagar es: " << total << endl;
+    cout << "-----------------------------" << endl;
+}
