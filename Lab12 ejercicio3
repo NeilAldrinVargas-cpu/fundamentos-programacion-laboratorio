@@ -1,0 +1,118 @@
+#include <iostream>
+#include <string>
+#include <iomanip> // Para dar formato a los decimales (Bs. 0.00)
+
+using namespace std;
+
+// --- DECLARACIÓN DE FUNCIONES (PROTOTIPOS) ---
+void mostrarMenu();
+double obtenerPrecio(int opcionPlan);
+double calcularSubtotal(double precio, int meses);
+double calcularDescuento(double subtotal, int meses);
+void mostrarResultado(string nombre, string planTxt, double subtotal, double descuento, double total);
+
+// --- FUNCIÓN PRINCIPAL ---
+int main() {
+    string nombreCliente;
+    int opcionPlan;
+    int cantidadMeses;
+    string nombrePlanTxt;
+
+    cout << "=== SISTEMA DE GESTION DE PAGOS - GIMNASIO UNIVERSITARIO ===" << endl;
+    
+    // 1. Solicitar datos del cliente
+    cout << "Ingrese el nombre del cliente: ";
+    getline(cin, nombreCliente);
+
+    // 2. Mostrar menú y solicitar el plan
+    mostrarMenu();
+    cout << "Seleccione una opcion de plan (1-3): ";
+    cin >> opcionPlan;
+
+    // Validación básica del plan
+    while (opcionPlan < 1 || opcionPlan > 3) {
+        cout << "Opcion invalida. Intente de nuevo (1-3): ";
+        cin >> opcionPlan;
+    }
+
+    // 3. Solicitar cantidad de meses
+    cout << "Ingrese la cantidad de meses a pagar: ";
+    cin >> cantidadMeses;
+    
+    while (cantidadMeses <= 0) {
+        cout << "La cantidad de meses debe ser mayor a 0. Intente de nuevo: ";
+        cin >> cantidadMeses;
+    }
+
+    // --- PROCESAMIENTO DE DATOS USANDO LAS FUNCIONES ---
+    
+    // Asignar nombre del plan para el reporte final
+    if (opcionPlan == 1) nombrePlanTxt = "Basico";
+    else if (opcionPlan == 2) nombrePlanTxt = "Intermedio";
+    else nombrePlanTxt = "Premium";
+
+    // Llamadas a las funciones requeridas
+    double precioBase = obtenerPrecio(opcionPlan);
+    double subtotal = calcularSubtotal(precioBase, cantidadMeses);
+    double descuento = calcularDescuento(subtotal, cantidadMeses);
+    double totalFinal = subtotal - descuento;
+
+    // 4. Mostrar el resultado/factura
+    mostrarResultado(nombreCliente, nombrePlanTxt, subtotal, descuento, totalFinal);
+
+    return 0;
+}
+
+// --- DESARROLLO DE LAS FUNCIONES ---
+
+// Objetivo: Mostrar los planes disponibles
+void mostrarMenu() {
+    cout << "\n-----------------------------------------" << endl;
+    cout << "            PLANES DISPONIBLES           " << endl;
+    cout << "-----------------------------------------" << endl;
+    cout << "1. Plan Basico     - 100 Bs/mes" << endl;
+    cout << "2. Plan Intermedio - 180 Bs/mes" << endl;
+    cout << "3. Plan Premium    - 250 Bs/mes" << endl;
+    cout << "-----------------------------------------" << endl;
+}
+
+// Objetivo: Retornar el precio mensual según el plan seleccionado
+double obtenerPrecio(int opcionPlan) {
+    switch (opcionPlan) {
+        case 1:  return 100.0;
+        case 2:  return 180.0;
+        case 3:  return 250.0;
+        default: return 0.0; // En caso de error, aunque ya está validado
+    }
+}
+
+// Objetivo: Calcular el subtotal (precio base * cantidad de meses)
+double calcularSubtotal(double precio, int meses) {
+    return precio * meses;
+}
+
+// Objetivo: Aplicar el 15% de descuento si los meses son mayores a 3
+double calcularDescuento(double subtotal, int meses) {
+    if (meses > 3) {
+        return subtotal * 0.15; // 15% de descuento
+    }
+    return 0.0; // Sin descuento
+}
+
+// Objetivo: Mostrar la factura final bien organizada
+void mostrarResultado(string nombre, string planTxt, double subtotal, double descuento, double total) {
+    cout << "\n=========================================" << endl;
+    cout << "             DETALLE DE PAGO             " << endl;
+    cout << "=========================================" << endl;
+    cout << "Cliente:          " << nombre << endl;
+    cout << "Plan contratado:  " << planTxt << endl;
+    
+    // Configuración para mostrar siempre 2 decimales (.00)
+    cout << fixed << setprecision(2); 
+    
+    cout << "Subtotal:         " << subtotal << " Bs." << endl;
+    cout << "Descuento:       -" << descuento << " Bs." << endl;
+    cout << "-----------------------------------------" << endl;
+    cout << "TOTAL A PAGAR:    " << total << " Bs." << endl;
+    cout << "=========================================" << endl;
+}
