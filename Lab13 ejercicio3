@@ -1,0 +1,127 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+// Constante global para los 15 días del análisis
+const int DIAS = 15;
+
+// Prototipos de funciones
+void leerTemperaturas(double temperaturas[]);
+void mostrarTemperaturas(const double temperaturas[]);
+double calcularPromedio(const double temperaturas[]);
+double buscarMaxima(const double temperaturas[]);
+double buscarMinima(const double temperaturas[]);
+int contarMayoresPromedio(const double temperaturas[], double promedio);
+int contarMenoresA10(const double temperaturas[]);
+void mostrarReporte(const double temperaturas[], double max, double min, double promedio, int mayoresPromedio, int menores10);
+
+int main() {
+    // Vector unidimensional para almacenar las 15 temperaturas
+    double temperaturas[DIAS];
+
+    // 1. Lectura de datos
+    leerTemperaturas(temperaturas);
+
+    // 2. Cálculos utilizando las funciones modulares
+    double max = buscarMaxima(temperaturas);
+    double min = buscarMinima(temperaturas);
+    double promedio = calcularPromedio(temperaturas);
+    int mayoresPromedio = contarMayoresPromedio(temperaturas, promedio);
+    int menores10 = contarMenoresA10(temperaturas);
+
+    // 3. Mostrar resultados ordenados
+    mostrarReporte(temperaturas, max, min, promedio, mayoresPromedio, menores10);
+
+    return 0;
+}
+
+// --- Desarrollo de Funciones ---
+
+void leerTemperaturas(double temperaturas[]) {
+    cout << "=== REGISTRO DE TEMPERATURAS (15 DIAS) ===" << endl;
+    for (int i = 0; i < DIAS; i++) {
+        // Suponiendo un rango lógico para el clima terrestre (ej: -50C a 60C)
+        do {
+            cout << "Ingrese la temperatura del dia " << i + 1 << " (C): ";
+            cin >> temperaturas[i];
+            if (temperaturas[i] < -50 || temperaturas[i] > 60) {
+                cout << "Temperatura fuera de rango logico. Intente de nuevo." << endl;
+            }
+        } while (temperaturas[i] < -50 || temperaturas[i] > 60);
+    }
+}
+
+void mostrarTemperaturas(const double temperaturas[]) {
+    cout << "\n[ ";
+    for (int i = 0; i < DIAS; i++) {
+        cout << fixed << setprecision(1) << temperaturas[i] << "C";
+        if (i < DIAS - 1) cout << " | ";
+    }
+    cout << " ]" << endl;
+}
+
+double calcularPromedio(const double temperaturas[]) {
+    double acumuladorSuma = 0; // Variable acumuladora
+    for (int i = 0; i < DIAS; i++) {
+        acumuladorSuma += temperaturas[i];
+    }
+    return acumuladorSuma / DIAS;
+}
+
+double buscarMaxima(const double temperaturas[]) {
+    double maxima = temperaturas[0];
+    for (int i = 1; i < DIAS; i++) {
+        if (temperaturas[i] > maxima) {
+            maxima = temperaturas[i];
+        }
+    }
+    return maxima;
+}
+
+double buscarMinima(const double temperaturas[]) {
+    double minima = temperaturas[0];
+    for (int i = 1; i < DIAS; i++) {
+        if (temperaturas[i] < minima) {
+            minima = temperaturas[i];
+        }
+    }
+    return minima;
+}
+
+int contarMayoresPromedio(const double temperaturas[], double promedio) {
+    int contador = 0; // Variable contadora
+    for (int i = 0; i < DIAS; i++) {
+        if (temperaturas[i] > promedio) {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+int contarMenoresA10(const double temperaturas[]) {
+    int contador = 0; // Variable contadora
+    for (int i = 0; i < DIAS; i++) {
+        if (temperaturas[i] < 10.0) {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+void mostrarReporte(const double temperaturas[], double max, double min, double promedio, int mayoresPromedio, int menores10) {
+    cout << "\n=========================================" << endl;
+    cout << "     REPORTE DEL ANALISIS CLIMATICO      " << endl;
+    cout << "=========================================" << endl;
+    
+    cout << "Todas las temperaturas registradas:";
+    mostrarTemperaturas(temperaturas);
+    
+    cout << "\n-----------------------------------------" << endl;
+    cout << "Temperatura Maxima         : " << max << " C" << endl;
+    cout << "Temperatura Minima         : " << min << " C" << endl;
+    cout << "Promedio General           : " << fixed << setprecision(2) << promedio << " C" << endl;
+    cout << "Dias con temp. > promedio  : " << mayoresPromedio << " dia(s)" << endl;
+    cout << "Dias con temp. < 10 grados : " << menores10 << " dia(s)" << endl;
+    cout << "=========================================" << endl;
+}
