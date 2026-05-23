@@ -1,0 +1,125 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+// Constante global para los días de la semana
+const int DIAS = 7;
+
+// Prototipos de funciones
+void leerVentas(double ventas[], const string dias[]);
+void mostrarVentas(const double ventas[], const string dias[]);
+double calcularTotal(const double ventas[]);
+double calcularPromedio(double totalVentas);
+int buscarDiaMayor(const double ventas[]);
+int buscarDiaMenor(const double ventas[]);
+int contarDiasSuperioresPromedio(const double ventas[], double promedio);
+void mostrarResultados(double total, double promedio, string diaMayor, double maxVenta, string diaMenor, double minVenta, int diasSuperiores);
+
+int main() {
+    // Vector para almacenar las ventas de los 7 días
+    double ventas[DIAS];
+    
+    // Vector auxiliar con los nombres de los días para cumplir el requisito
+    string nombresDias[DIAS] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+
+    // 1. Leer los datos
+    leerVentas(ventas, nombresDias);
+
+    // 2. Mostrar los datos ingresados
+    mostrarVentas(ventas, nombresDias);
+
+    // 3. Realizar los cálculos necesarios
+    double total = calcularTotal(ventas);
+    double promedio = calcularPromedio(total);
+    
+    // Obtenemos los índices (0 a 6) del día con mayor y menor venta
+    int indiceMayor = buscarDiaMayor(ventas);
+    int indiceMenor = buscarDiaMenor(ventas);
+    
+    int diasSuperiores = contarDiasSuperioresPromedio(ventas, promedio);
+
+    // 4. Mostrar el reporte final
+    mostrarResultados(total, promedio, nombresDias[indiceMayor], ventas[indiceMayor], nombresDias[indiceMenor], ventas[indiceMenor], diasSuperiores);
+
+    return 0;
+}
+
+// --- Implementación de Funciones ---
+
+void leerVentas(double ventas[], const string dias[]) {
+    cout << "=== REGISTRO DE VENTAS DE LA SEMANA ===" << endl;
+    for (int i = 0; i < DIAS; i++) {
+        do {
+            cout << "Ingrese las ventas del dia " << dias[i] << ": ";
+            cin >> ventas[i];
+            if (ventas[i] < 0) {
+                cout << "Las ventas no pueden ser negativas. Intente de nuevo." << endl;
+            }
+        } while (ventas[i] < 0);
+    }
+}
+
+void mostrarVentas(const double ventas[], const string dias[]) {
+    cout << "\n===== RESUMEN DIARIO =====" << endl;
+    for (int i = 0; i < DIAS; i++) {
+        cout << dias[i] << ": $" << fixed << setprecision(2) << ventas[i] << endl;
+    }
+}
+
+double calcularTotal(const double ventas[]) {
+    double suma = 0;
+    for (int i = 0; i < DIAS; i++) {
+        suma += ventas[i];
+    }
+    return suma;
+}
+
+double calcularPromedio(double totalVentas) {
+    return totalVentas / DIAS;
+}
+
+// Devuelve la posición (índice) del día con mayor venta
+int buscarDiaMayor(const double ventas[]) {
+    int indiceMayor = 0;
+    for (int i = 1; i < DIAS; i++) {
+        if (ventas[i] > ventas[indiceMayor]) {
+            indiceMayor = i;
+        }
+    }
+    return indiceMayor;
+}
+
+// Devuelve la posición (índice) del día con menor venta
+int buscarDiaMenor(const double ventas[]) {
+    int indiceMenor = 0;
+    for (int i = 1; i < DIAS; i++) {
+        if (ventas[i] < ventas[indiceMenor]) {
+            indiceMenor = i;
+        }
+    }
+    return indiceMenor;
+}
+
+int contarDiasSuperioresPromedio(const double ventas[], double promedio) {
+    int contador = 0;
+    for (int i = 0; i < DIAS; i++) {
+        if (ventas[i] > promedio) {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+void mostrarResultados(double total, double promedio, string diaMayor, double maxVenta, string diaMenor, double minVenta, int diasSuperiores) {
+    cout << "\n=========================================" << endl;
+    cout << "          REPORTE DE VENTAS              " << endl;
+    cout << "=========================================" << endl;
+    cout << "Total vendido en la semana : $" << total << endl;
+    cout << "Promedio diario de ventas  : $" << promedio << endl;
+    cout << "Dia con MAYOR venta        : " << diaMayor << " ($" << maxVenta << ")" << endl;
+    cout << "Dia con MENOR venta        : " << diaMenor << " ($" << minVenta << ")" << endl;
+    cout << "Dias con ventas > promedio : " << diasSuperiores << " dias" << endl;
+    cout << "=========================================" << endl;
+}
